@@ -2,13 +2,17 @@ package de.lazybird.meliusscientia;
 
 import de.lazybird.meliusscientia.init.ModBlock;
 import de.lazybird.meliusscientia.init.ModItemGroups;
+import de.lazybird.meliusscientia.worldgen.OreGen;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.IForgeRegistry;
+
+import static de.lazybird.meliusscientia.init.ModBlock.uranium_ore;
 
 @Mod.EventBusSubscriber(modid = MeliusScientia.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEventSubscriber {
@@ -32,6 +36,11 @@ public class ModEventSubscriber {
                     // Register the BlockItem
                     registry.register(blockItem);
                 });
+    }
+
+    @SubscribeEvent
+    public static void loadCompleteEvent(FMLLoadCompleteEvent event){
+        OreGen.generateOre(uranium_ore, 15, 20, 128, 2);
     }
 
 

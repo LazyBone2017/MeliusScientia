@@ -2,6 +2,7 @@ package de.lazybird.meliusscientia;
 
 import de.lazybird.meliusscientia.init.ModBlock;
 import de.lazybird.meliusscientia.init.ModItem;
+import net.minecraft.block.BlockState;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
