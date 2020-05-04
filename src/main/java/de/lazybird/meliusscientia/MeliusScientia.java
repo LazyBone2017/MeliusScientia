@@ -1,5 +1,6 @@
 package de.lazybird.meliusscientia;
 
+import de.lazybird.meliusscientia.init.BiomeInit;
 import de.lazybird.meliusscientia.init.ModBlock;
 import de.lazybird.meliusscientia.init.ModItem;
 import net.minecraft.block.BlockState;
@@ -20,10 +21,10 @@ public final class MeliusScientia {
         final ModLoadingContext modLoadingContext = ModLoadingContext.get();
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register Deferred Registers (Does not need to be before Configs)
         ModBlock.BLOCKS.register(modEventBus);
         ModItem.ITEMS.register(modEventBus);
-        // Register Configs (Does not need to be after Deferred Registers)
+
+        BiomeInit.BIOMES.register(modEventBus);
 
     }
 }

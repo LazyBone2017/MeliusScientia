@@ -1,10 +1,12 @@
 package de.lazybird.meliusscientia;
 
+import de.lazybird.meliusscientia.init.BiomeInit;
 import de.lazybird.meliusscientia.init.ModBlock;
 import de.lazybird.meliusscientia.init.ModItemGroups;
 import de.lazybird.meliusscientia.worldgen.OreGen;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
@@ -43,5 +45,9 @@ public class ModEventSubscriber {
         OreGen.generateOre(uranium_ore, 15, 20, 128, 2);
     }
 
+    @SubscribeEvent
+    public static void onRegisterBiome(RegistryEvent<Biome> event){
+        BiomeInit.registerBiomes();
+    }
 
 }
