@@ -4,6 +4,12 @@
 
 
   "block.meliusscientia.uranium_ore": "Uranium Ore",
+  "block.meliusscientia.beech_log": "Beech Log",
+  "block.meliusscientia.beech_planks": "Beech Planks",
+  "block.meliusscientia.beech_leaves": "Beech Leaves",
+  "block.meliusscientia.sludge": "Sludge",
+  "block.meliusscientia.radioactive_dirt": "Dirt(Radioactive)",
+
 
   "itemGroup.meliusscientia": "Melius Scientia"
 }
