@@ -1,12 +1,15 @@
 package de.lazybird.meliusscientia.block;
 
 import de.lazybird.meliusscientia.init.ModTileEntityType;
+import de.lazybird.meliusscientia.tileentity.CombustionGeneratorTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -17,9 +20,13 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class CombustionGenerator extends Block {
 
@@ -35,7 +42,8 @@ public class CombustionGenerator extends Block {
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (worldIn.isRemote)
             return ActionResultType.SUCCESS;
-        player.sendMessage(new StringTextComponent("Activated"));
+        CombustionGeneratorTileEntity te = (CombustionGeneratorTileEntity) worldIn.getTileEntity(pos);
+        player.sendMessage(new StringTextComponent("Energy: " + te.energyStorage.getEnergyStored() + " Timeleft: " + te.timeleft));
         return ActionResultType.SUCCESS;
     }
 
@@ -59,5 +67,11 @@ public class CombustionGenerator extends Block {
 
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING, ACTIVE);
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(new StringTextComponent("Receives fuel through a hopper and generates energy."));
+        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 }
