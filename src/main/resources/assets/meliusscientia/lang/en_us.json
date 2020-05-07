@@ -4,6 +4,9 @@
 
 
   "block.meliusscientia.uranium_ore": "Uranium Ore",
+  "block.meliusscientia.combustion_generator": "Combustion Generator",
+
+  "container.meliusscientia.combustion_generator": "Combustion Generator",
 
   "itemGroup.meliusscientia": "Melius Scientia"
 }
