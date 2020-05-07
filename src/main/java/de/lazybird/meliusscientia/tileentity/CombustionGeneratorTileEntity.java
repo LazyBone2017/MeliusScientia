@@ -1,7 +1,13 @@
 package de.lazybird.meliusscientia.tileentity;
 
+import de.lazybird.meliusscientia.MeliusScientia;
+import de.lazybird.meliusscientia.container.CombustionGeneratorContainer;
 import de.lazybird.meliusscientia.init.ModTileEntityType;
 import de.lazybird.meliusscientia.util.storage.GeneratorEnergyStorage;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -9,6 +15,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -16,8 +24,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-public class CombustionGeneratorTileEntity extends TileEntity implements ITickableTileEntity {
+public class CombustionGeneratorTileEntity extends TileEntity implements ITickableTileEntity, INamedContainerProvider {
 
     public final GeneratorEnergyStorage energyStorage = new GeneratorEnergyStorage(10000, 20);
     public final ItemStackHandler itemStorage = new ItemStackHandler(1) {
@@ -92,4 +101,14 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
 		itemStorage.deserializeNBT(compound);
 	}
 
+    @Override
+    public ITextComponent getDisplayName() {
+        return new TranslationTextComponent("container." + MeliusScientia.MODID + ".combustion_generator");
+    }
+
+    @Nullable
+    @Override
+    public Container createMenu(int id, @Nonnull PlayerInventory inventory, PlayerEntity player) {
+        return new CombustionGeneratorContainer(id, inventory, this);
+    }
 }

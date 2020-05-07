@@ -1,9 +1,6 @@
 package de.lazybird.meliusscientia;
 
-import de.lazybird.meliusscientia.init.BiomeInit;
-import de.lazybird.meliusscientia.init.ModBlock;
-import de.lazybird.meliusscientia.init.ModItem;
-import de.lazybird.meliusscientia.init.ModTileEntityType;
+import de.lazybird.meliusscientia.init.*;
 import net.minecraft.block.BlockState;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -25,6 +22,7 @@ public final class MeliusScientia {
         ModBlock.BLOCKS.register(modEventBus);
         ModItem.ITEMS.register(modEventBus);
         ModTileEntityType.TILE_ENTITY_TYPES.register(modEventBus);
+        ModContainerTypes.CONTAINER_TYPES.register(modEventBus);
         BiomeInit.BIOMES.register(modEventBus);
 
     }
