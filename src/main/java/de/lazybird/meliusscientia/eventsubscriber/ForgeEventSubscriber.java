@@ -3,11 +3,14 @@ package de.lazybird.meliusscientia.eventsubscriber;
 import de.lazybird.meliusscientia.effects.RadiationEffect;
 import de.lazybird.meliusscientia.init.BiomeInit;
 import de.lazybird.meliusscientia.init.PotionInit;
+import de.lazybird.meliusscientia.util.ModDamageSources;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = "meliusscientia", bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEventSubscriber {
@@ -17,15 +20,16 @@ public class ForgeEventSubscriber {
     public static void onPlayerTick(TickEvent.PlayerTickEvent event){
 
         if(event.player.world.getBiome(event.player.getPosition()) == BiomeInit.nuked_biome.get()){
-            //TODO add radiation poisoning @TODO.md, add protection
+            //TODO add protection
             PlayerEntity player = event.player;
-            if(player.isInWater() && player.getActivePotionEffect(PotionInit.radiation_effect.get()).getAmplifier() == 0){
+            if(player.isInWater() && player.getActivePotionEffect(PotionInit.radiation_effect.get()) != null){
+                if(player.getActivePotionEffect(PotionInit.radiation_effect.get()).getAmplifier() != 0)return;
                 player.removePotionEffect(PotionInit.radiation_effect.get());
-                player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[0][0], 1, false, false));
+                player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[1][0], 1, true, false)); //Level 2
                 return;
             }
             if(player.getActivePotionEffect(PotionInit.radiation_effect.get()) == null){
-                player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[2][0], 2, false, false)); //23 min -> 27600 //TEST 5min
+                player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[0][0], 0, true, false)); //Level 1
             }
         }
     }

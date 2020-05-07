@@ -4,9 +4,8 @@
 - first no visible effects, just "radiation"
 - multiple levels of radiation, depending on contamination
   - level 1: when in nuked_biome
-  - level 2: when in contaminated water
+  - level 2: when in contaminated water or upgrade
   - level 3: when ingested contaminated material
-  - level 4: extreme level of radiation, maybe
 - basic concept: for every level, there's a specific probability to get a specific set of effects
 - effects activate after certain amount of time
 ### Levels

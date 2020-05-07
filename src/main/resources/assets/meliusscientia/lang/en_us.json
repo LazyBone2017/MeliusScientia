@@ -4,13 +4,14 @@
 
 
   "block.meliusscientia.uranium_ore": "Uranium Ore",
-  "block.meliusscientia.beech_log": "Beech Log",
-  "block.meliusscientia.beech_planks": "Beech Planks",
-  "block.meliusscientia.beech_leaves": "Beech Leaves",
+  "block.meliusscientia.beech_log": "Contaminated Log",
+  "block.meliusscientia.beech_planks": "Contaminated Planks",
+  "block.meliusscientia.beech_leaves": "Contaminated Leaves",
   "block.meliusscientia.sludge": "Sludge",
-  "block.meliusscientia.radioactive_dirt": "Dirt(Radioactive)",
+  "block.meliusscientia.radioactive_dirt": "Contaminated Dirt",
 
   "effect.meliusscientia.radiation_effect": "Radiation",
+  "death.attack.radiation_damage": "%1$s was exposed to a lethal dose of radiation.",
 
   "itemGroup.meliusscientia": "Melius Scientia"
 }
