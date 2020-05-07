@@ -50,32 +50,34 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
 
     @Override
     public void tick() {
-        // Output energy
-        for (Direction facing : Direction.values()) {
-            BlockPos checking = this.pos.offset(facing);
-            TileEntity checkingTile = this.world.getTileEntity(checking);
-            if (checkingTile != null) {
-                checkingTile.getCapability(CapabilityEnergy.ENERGY, facing.getOpposite()).ifPresent(storage -> {
-                    int energy = storage.receiveEnergy(Math.min(this.energyStorage.getEnergyStored(), 20), false);
-                    if (energy > 0) {
-                        this.energyStorage.extractEnergy(energy, false);
-                    }
-                });
+        if (!getWorld().isRemote()) {
+            // Output energy
+            for (Direction facing : Direction.values()) {
+                BlockPos checking = this.pos.offset(facing);
+                TileEntity checkingTile = this.world.getTileEntity(checking);
+                if (checkingTile != null) {
+                    checkingTile.getCapability(CapabilityEnergy.ENERGY, facing.getOpposite()).ifPresent(storage -> {
+                        int energy = storage.receiveEnergy(Math.min(this.energyStorage.getEnergyStored(), 20), false);
+                        if (energy > 0) {
+                            this.energyStorage.extractEnergy(energy, false);
+                        }
+                    });
+                }
             }
-        }
 
-        // Burn fuel
-        if (timeleft <= 0) { // Not active, start burning if possible
-            if (!itemStorage.getStackInSlot(0).isEmpty()) {
-                timeleft = ForgeHooks.getBurnTime(itemStorage.getStackInSlot(0));
-                itemStorage.getStackInSlot(0).setCount(itemStorage.getStackInSlot(0).getCount() - 1);
-                getWorld().setBlockState(getPos(), getBlockState().with(CombustionGenerator.ACTIVE, true));
-            } else {
-                getWorld().setBlockState(getPos(), getBlockState().with(CombustionGenerator.ACTIVE, false));
+            // Burn fuel
+            if (timeleft <= 0) { // Not active, start burning if possible
+                if (!itemStorage.getStackInSlot(0).isEmpty()) {
+                    timeleft = ForgeHooks.getBurnTime(itemStorage.getStackInSlot(0));
+                    itemStorage.getStackInSlot(0).setCount(itemStorage.getStackInSlot(0).getCount() - 1);
+                    getWorld().setBlockState(getPos(), getBlockState().with(CombustionGenerator.ACTIVE, true));
+                } else {
+                    getWorld().setBlockState(getPos(), getBlockState().with(CombustionGenerator.ACTIVE, false));
+                }
+            } else { // Generate energy
+                if (energyStorage.incrementEnergy(5))
+                    timeleft--;
             }
-        } else { // Generate energy
-            if (energyStorage.incrementEnergy(5))
-                timeleft--;
         }
     }
 
@@ -94,6 +96,7 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
 		compound.putInt("energy", energyStorage.getEnergyStored());
+		compound.putInt("timeleft", timeleft);
 		compound.merge(itemStorage.serializeNBT());
 		return compound;
 	}
@@ -102,6 +105,7 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
 	public void read(CompoundNBT compound) {
 		super.read(compound);
 		energyStorage.setEnergy(compound.getInt("energy"));
+		timeleft = compound.getInt("timeleft");
 		itemStorage.deserializeNBT(compound);
 	}
 
