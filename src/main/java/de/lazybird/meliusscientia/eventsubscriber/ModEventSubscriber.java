@@ -1,6 +1,7 @@
 package de.lazybird.meliusscientia.eventsubscriber;
 
 import de.lazybird.meliusscientia.MeliusScientia;
+import de.lazybird.meliusscientia.Util;
 import de.lazybird.meliusscientia.init.BiomeInit;
 import de.lazybird.meliusscientia.init.ModBlock;
 import de.lazybird.meliusscientia.init.ModItemGroups;
@@ -10,10 +11,14 @@ import net.minecraft.item.Item;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.terraingen.WorldTypeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.IForgeRegistry;
 
 import static de.lazybird.meliusscientia.init.ModBlock.uranium_ore;
@@ -27,7 +32,7 @@ public class ModEventSubscriber {
 
         ModBlock.BLOCKS.getEntries().stream()
                 .map(RegistryObject::get)
-                // You can do extra filtering here if you don't want some blocks to have an BlockItem automatically registered for them
+                // You can do extra filtering here if you don't want some tags to have an BlockItem automatically registered for them
                 // .filter(block -> needsItemBlock(block))
                 // Register the BlockItem for the block
                 .forEach(block -> {
@@ -44,13 +49,18 @@ public class ModEventSubscriber {
 
     @SubscribeEvent
     public static void loadCompleteEvent(FMLLoadCompleteEvent event){
-        OreGen.generateOre(uranium_ore, 15, 20, 128, 2);
+
+    }
+
+    @SubscribeEvent
+    public static void setup(FMLClientSetupEvent event){
+        DeferredWorkQueue.runLater(OreGen::generateOres);
+        DeferredWorkQueue.runLater(Util::generateFeatures);
     }
 
     @SubscribeEvent
     public static void onRegisterBiome(RegistryEvent<Biome> event){
         BiomeInit.registerBiomes();
-
     }
 
 }

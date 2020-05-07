@@ -10,6 +10,7 @@
   "block.meliusscientia.sludge": "Sludge",
   "block.meliusscientia.radioactive_dirt": "Dirt(Radioactive)",
 
+  "effect.meliusscientia.radiation_effect": "Radiation",
 
   "itemGroup.meliusscientia": "Melius Scientia"
 }

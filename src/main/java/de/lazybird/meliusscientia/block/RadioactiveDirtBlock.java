@@ -23,11 +23,8 @@ public class RadioactiveDirtBlock extends Block {
     public void onEntityWalk(World worldIn, BlockPos pos, Entity entityIn) {
         super.onEntityWalk(worldIn, pos, entityIn);
         if(entityIn instanceof MonsterEntity){
-            ((MonsterEntity)entityIn).addPotionEffect(new EffectInstance(Effects.SPEED, 100));
-        }
-
-        if(entityIn instanceof PlayerEntity){
-            ((PlayerEntity)entityIn).addPotionEffect(new EffectInstance(Effects.SPEED, 100));
+            ((MonsterEntity)entityIn).addPotionEffect(new EffectInstance(Effects.REGENERATION, 100, 0, false, false));
+            ((MonsterEntity)entityIn).addPotionEffect(new EffectInstance(Effects.SPEED, 100, 1, false, false));
         }
     }
 }

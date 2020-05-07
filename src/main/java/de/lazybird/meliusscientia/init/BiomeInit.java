@@ -25,7 +25,7 @@ public class BiomeInit {
     }
 
     public static void registerBiomes(){
-        registerBiome(nuked_biome.get(), 1000, BiomeManager.BiomeType.WARM, BiomeDictionary.Type.OVERWORLD);
+        registerBiome(nuked_biome.get(), 5, BiomeManager.BiomeType.WARM, BiomeDictionary.Type.OVERWORLD);
     }
 
     @SuppressWarnings("deprecation")

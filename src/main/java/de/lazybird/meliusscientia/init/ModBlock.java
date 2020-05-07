@@ -1,18 +1,16 @@
 package de.lazybird.meliusscientia.init;
 
 import de.lazybird.meliusscientia.MeliusScientia;
+import de.lazybird.meliusscientia.block.BeechSapling;
 import de.lazybird.meliusscientia.block.RadioactiveDirtBlock;
+import de.lazybird.meliusscientia.worldgen.tree.BeechTree;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.common.extensions.IForgeBlockState;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ObjectHolder;
 
 public class ModBlock {
 
@@ -25,5 +23,6 @@ public class ModBlock {
     public static RegistryObject<Block> beech_planks = BLOCKS.register("beech_planks", () -> new Block(Block.Properties.from(Blocks.OAK_PLANKS)));
     public static RegistryObject<Block> beech_leaves = BLOCKS.register("beech_leaves", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_LEAVES)));
     public static RegistryObject<Block> beech_log = BLOCKS.register("beech_log", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG)));
+    public static RegistryObject<Block> beech_sapling = BLOCKS.register("beech_sapling", () -> new BeechSapling(BeechTree::new, Block.Properties.from(Blocks.OAK_SAPLING)));
 
 }
