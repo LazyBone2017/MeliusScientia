@@ -5,13 +5,15 @@ import de.lazybird.meliusscientia.worldgen.OreGen;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
+import de.lazybird.meliusscientia.init.*;
+import net.minecraft.block.BlockState;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 
@@ -31,8 +33,8 @@ public final class MeliusScientia {
         ModBlock.BLOCKS.register(modEventBus);
         ModItem.ITEMS.register(modEventBus);
         PotionInit.EFFECTS.register(modEventBus);
-        //PotionInit.POTIONS.register(modEventBus);
-
+        ModTileEntityType.TILE_ENTITY_TYPES.register(modEventBus);
+        ModContainerTypes.CONTAINER_TYPES.register(modEventBus);
         BiomeInit.BIOMES.register(modEventBus);
 
     }

@@ -1,7 +1,5 @@
-package de.lazybird.meliusscientia.eventsubscriber;
+package de.lazybird.meliusscientia;
 
-import de.lazybird.meliusscientia.MeliusScientia;
-import de.lazybird.meliusscientia.Util;
 import de.lazybird.meliusscientia.init.BiomeInit;
 import de.lazybird.meliusscientia.init.ModBlock;
 import de.lazybird.meliusscientia.init.ModItemGroups;

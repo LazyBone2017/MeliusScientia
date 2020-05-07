@@ -12,6 +12,9 @@
 
   "effect.meliusscientia.radiation_effect": "Radiation",
   "death.attack.radiation_damage": "%1$s was exposed to a lethal dose of radiation.",
+  "block.meliusscientia.combustion_generator": "Combustion Generator",
+
+  "container.meliusscientia.combustion_generator": "Combustion Generator",
 
   "itemGroup.meliusscientia": "Melius Scientia"
 }
