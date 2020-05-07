@@ -1,5 +1,6 @@
-package de.lazybird.meliusscientia;
+package de.lazybird.meliusscientia.eventsubscriber;
 
+import de.lazybird.meliusscientia.MeliusScientia;
 import de.lazybird.meliusscientia.client.gui.CombustionGeneratorScreen;
 import de.lazybird.meliusscientia.init.ModContainerTypes;
 import net.minecraft.client.gui.ScreenManager;
