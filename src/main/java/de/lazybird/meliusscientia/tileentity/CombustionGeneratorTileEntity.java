@@ -1,6 +1,7 @@
 package de.lazybird.meliusscientia.tileentity;
 
 import de.lazybird.meliusscientia.MeliusScientia;
+import de.lazybird.meliusscientia.block.CombustionGenerator;
 import de.lazybird.meliusscientia.container.CombustionGeneratorContainer;
 import de.lazybird.meliusscientia.init.ModTileEntityType;
 import de.lazybird.meliusscientia.util.storage.GeneratorEnergyStorage;
@@ -68,6 +69,9 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
             if (!itemStorage.getStackInSlot(0).isEmpty()) {
                 timeleft = ForgeHooks.getBurnTime(itemStorage.getStackInSlot(0));
                 itemStorage.getStackInSlot(0).setCount(itemStorage.getStackInSlot(0).getCount() - 1);
+                getWorld().setBlockState(getPos(), getBlockState().with(CombustionGenerator.ACTIVE, true));
+            } else {
+                getWorld().setBlockState(getPos(), getBlockState().with(CombustionGenerator.ACTIVE, false));
             }
         } else { // Generate energy
             if (energyStorage.incrementEnergy(5))
@@ -111,4 +115,5 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
     public Container createMenu(int id, @Nonnull PlayerInventory inventory, PlayerEntity player) {
         return new CombustionGeneratorContainer(id, inventory, this);
     }
+
 }
