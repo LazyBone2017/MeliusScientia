@@ -2,8 +2,6 @@ package de.lazybird.meliusscientia.init;
 
 import de.lazybird.meliusscientia.MeliusScientia;
 import de.lazybird.meliusscientia.effects.RadiationEffect;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;

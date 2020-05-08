@@ -2,15 +2,14 @@ package de.lazybird.meliusscientia.eventsubscriber;
 
 import de.lazybird.meliusscientia.effects.RadiationEffect;
 import de.lazybird.meliusscientia.init.BiomeInit;
+import de.lazybird.meliusscientia.init.ModItem;
 import de.lazybird.meliusscientia.init.PotionInit;
-import de.lazybird.meliusscientia.util.ModDamageSources;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-
-import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = "meliusscientia", bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEventSubscriber {
@@ -38,6 +37,13 @@ public class ForgeEventSubscriber {
     public static void onServerTick(TickEvent.ServerTickEvent event){
         if(event.phase == TickEvent.Phase.START){
 
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerRightClickItem(PlayerInteractEvent.RightClickItem event){
+        if(!event.getPlayer().world.isRemote && event.getItemStack().getItem() == ModItem.bottle_u03.get()){
+            event.getPlayer().addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[2][0], 2, true, false)); //Level 1
         }
     }
 }

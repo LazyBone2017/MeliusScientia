@@ -19,8 +19,8 @@ public class CombustionGeneratorScreen extends ContainerScreen<CombustionGenerat
         super(screenContainer, inv, titleIn);
         this.guiLeft = 0;
         this.guiTop = 0;
-        this.xSize = 180;
-        this.ySize = 130;
+        this.xSize = 176;
+        this.ySize = 166;
     }
 
     @Override

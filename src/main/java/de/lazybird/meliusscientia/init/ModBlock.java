@@ -1,20 +1,17 @@
 package de.lazybird.meliusscientia.init;
 
 import de.lazybird.meliusscientia.MeliusScientia;
-import de.lazybird.meliusscientia.block.CombustionGenerator;
 import de.lazybird.meliusscientia.block.BeechSapling;
+import de.lazybird.meliusscientia.block.CombustionGenerator;
 import de.lazybird.meliusscientia.block.RadioactiveDirtBlock;
 import de.lazybird.meliusscientia.worldgen.tree.BeechTree;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.common.extensions.IForgeBlockState;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ObjectHolder;
 
 public class ModBlock {
 

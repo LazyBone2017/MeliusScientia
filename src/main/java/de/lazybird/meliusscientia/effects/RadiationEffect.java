@@ -5,7 +5,6 @@ import de.lazybird.meliusscientia.init.PotionInit;
 import de.lazybird.meliusscientia.util.ModDamageSources;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
@@ -35,7 +34,6 @@ public class RadiationEffect extends Effect {
     public void performEffect(LivingEntity entityLivingBaseIn, int amplifier) {
         if(entityLivingBaseIn.world.isRemote())return;
         switch (amplifier){
-            //TODO add probabilities
             case 0: { //in biome
                 if(duration == timings[0][0]) {
                     System.out.println("RADIATION 1");
@@ -47,6 +45,7 @@ public class RadiationEffect extends Effect {
                 }
                 else if(duration == timings[0][1]){
                     entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 2400, 0, true, false));
+                    entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 1200, 0, true, false));
                 }
                 else if(duration == 1){
                     if(prob(10, 10))entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.POISON, 200, 0, true, false));
@@ -60,6 +59,7 @@ public class RadiationEffect extends Effect {
                 }
                 else if(duration == timings[1][1]){
                     entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 6000, 0, true, false));
+                    entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.HUNGER, 5000, 0, true, false));
                 }
                 else if(duration == 1){
                     if(prob(50, 50))entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.POISON, 200, 1, true, false));
@@ -73,10 +73,16 @@ public class RadiationEffect extends Effect {
                 }
                 else if(duration == timings[2][1]){
                     entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 8400, 0, true, false));
+                    entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 2400, 0, true, false));
+                    entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 1200, 0, true, false));
                 }
                 else if(duration == timings[2][2]){
                     //TODO add prob
                     //WALKING GHOST PHASE
+                    if(!prob(20, 50)){
+                        entityLivingBaseIn.removePotionEffect(PotionInit.radiation_effect.get());
+                        return;
+                    }
                     addRandomEffect(entityLivingBaseIn, 300);
                 }
                 else if(duration == timings[2][2] - 300){
@@ -93,8 +99,10 @@ public class RadiationEffect extends Effect {
                     entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.POISON, 2400));
                 }
                 else if(duration < timings[2][2] - 3600 && duration % 100 == 0){
+                    entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 20, 0, true, false));
                     entityLivingBaseIn.attackEntityFrom(ModDamageSources.radiationDamage, 1);
                 }
+
             }
         }
     }

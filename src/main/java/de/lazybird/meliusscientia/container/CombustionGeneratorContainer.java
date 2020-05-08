@@ -29,25 +29,27 @@ public class CombustionGeneratorContainer extends Container {
         this.tileEntity = tileEntity;
         this.canInteractWithCallable = IWorldPosCallable.of(tileEntity.getWorld(), tileEntity.getPos());
 
-        int startX = 8;
-		int startY = 18;
+        int startX = 44;
+		int startY = 36;
 		int slotSizePlus2 = 18;
 
 		// Combustion generator Inventory
         addSlot(new SlotItemHandler(itemStorage, 0, startX, startY));
 
         // Player Inventory
-		int startPlayerInvY = startY + slotSizePlus2 + 12;
+		int startPlayerInvX = startX - 36;
+		int startPlayerInvY = startY + 48;
 		for (int row = 0; row < 3; ++row) {
 			for (int column = 0; column < 9; ++column) {
-				this.addSlot(new Slot(playerInventory, 9 + (row * 9) + column, startX + (column * slotSizePlus2), startPlayerInvY + (row * slotSizePlus2)));
+				this.addSlot(new Slot(playerInventory, 9 + (row * 9) + column, startPlayerInvX + (column * slotSizePlus2), startPlayerInvY + (row * slotSizePlus2)));
 			}
 		}
 
 		// Hotbar
-		int hotbarY = startPlayerInvY + slotSizePlus2 * 3 + 7;
+		int hotbarX = startPlayerInvX;
+		int hotbarY = startPlayerInvY + 58;
 		for (int column = 0; column < 9; ++column) {
-			this.addSlot(new Slot(playerInventory, column, startX + (column * slotSizePlus2), hotbarY));
+			this.addSlot(new Slot(playerInventory, column, hotbarX + (column * slotSizePlus2), hotbarY));
 		}
     }
 
