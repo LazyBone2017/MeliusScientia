@@ -1,8 +1,10 @@
 package de.lazybird.meliusscientia.eventsubscriber;
 
+import de.lazybird.meliusscientia.MeliusScientia;
 import de.lazybird.meliusscientia.effects.RadiationEffect;
 import de.lazybird.meliusscientia.init.BiomeInit;
 import de.lazybird.meliusscientia.init.ModItem;
+import de.lazybird.meliusscientia.init.ModSound;
 import de.lazybird.meliusscientia.init.PotionInit;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
@@ -14,10 +16,11 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = "meliusscientia", bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEventSubscriber {
 
+    private static int geigerCounterSoundTicks = 0;
+    private static int geigerCounterSoundLength = 20;
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event){
-
         if(event.player.world.getBiome(event.player.getPosition()) == BiomeInit.nuked_biome.get()){
             //TODO add protection
             PlayerEntity player = event.player;
@@ -29,6 +32,22 @@ public class ForgeEventSubscriber {
             }
             if(player.getActivePotionEffect(PotionInit.radiation_effect.get()) == null){
                 player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[0][0], 0, true, false)); //Level 1
+            }
+
+            // Geiger-Müller Counter
+            if (player.inventory.getCurrentItem().getItem().getRegistryName().toString().equals(MeliusScientia.MODID + ":geiger_counter")) {
+                if (geigerCounterSoundTicks == 0) {
+                    player.playSound(ModSound.geiger_counter.get(), 1, 1);
+                } else if (geigerCounterSoundTicks >= geigerCounterSoundLength) {
+                    geigerCounterSoundTicks = -1;
+                }
+                geigerCounterSoundTicks++;
+            } else {
+                if (geigerCounterSoundTicks > 0 && geigerCounterSoundTicks < geigerCounterSoundLength)
+                    geigerCounterSoundTicks++;
+                else if (geigerCounterSoundTicks >= geigerCounterSoundLength) {
+                    geigerCounterSoundTicks = 0;
+                }
             }
         }
     }

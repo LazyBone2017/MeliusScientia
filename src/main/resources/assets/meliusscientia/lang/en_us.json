@@ -1,7 +1,7 @@
 {
   "item.meliusscientia.bottle_u03": "Laboratory Bottle(Uranium Trioxide)",
   "item.meliusscientia.bottle_u02": "Laboratory Bottle(Uranium Dioxide)",
-
+  "item.meliusscientia.geiger_counter": "Geiger-Müller counter",
 
   "block.meliusscientia.uranium_ore": "Uranium Ore",
   "block.meliusscientia.beech_log": "Contaminated Log",
@@ -15,6 +15,8 @@
   "block.meliusscientia.combustion_generator": "Combustion Generator",
 
   "container.meliusscientia.combustion_generator": "Combustion Generator",
+
+  "meliusscientia.subtitle.geiger_counter": "Geiger-Müller counter",
 
   "itemGroup.meliusscientia": "Melius Scientia"
 }

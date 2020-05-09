@@ -1,0 +1,11 @@
+{
+	"geiger_counter": {
+		"category": "player",
+		"subtitle": "meliusscientia.subtitle.geiger_counter",
+		"sounds": [
+			"meliusscientia:geiger_counter1",
+			"meliusscientia:geiger_counter2",
+			"meliusscientia:geiger_counter3"
+		]
+	}
+}

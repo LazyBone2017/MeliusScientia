@@ -17,6 +17,7 @@ public final class MeliusScientia {
         final ModLoadingContext modLoadingContext = ModLoadingContext.get();
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        ModSound.SOUNDS.register(modEventBus);
         ModBlock.BLOCKS.register(modEventBus);
         ModItem.ITEMS.register(modEventBus);
         PotionInit.EFFECTS.register(modEventBus);
