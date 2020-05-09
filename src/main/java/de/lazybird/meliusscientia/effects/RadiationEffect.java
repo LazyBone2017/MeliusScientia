@@ -1,9 +1,11 @@
 package de.lazybird.meliusscientia.effects;
 
+import de.lazybird.meliusscientia.Util;
 import de.lazybird.meliusscientia.init.BiomeInit;
 import de.lazybird.meliusscientia.init.PotionInit;
 import de.lazybird.meliusscientia.util.ModDamageSources;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
@@ -39,7 +41,7 @@ public class RadiationEffect extends Effect {
                     System.out.println("RADIATION 1");
                     if(prob(5, 50))entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.NAUSEA, 1200, 0, true, false)); //TEST for 1 min
                 }
-                else if(duration == timings[0][0] / 2 && entityLivingBaseIn.world.getBiome(entityLivingBaseIn.getPosition()) == BiomeInit.nuked_biome.get()){
+                else if(duration == timings[0][0] / 2 && entityLivingBaseIn.world.getBiome(entityLivingBaseIn.getPosition()) == BiomeInit.nuked_biome.get() && Util.isWearingRPS((PlayerEntity)entityLivingBaseIn)){
                         entityLivingBaseIn.removePotionEffect(PotionInit.radiation_effect.get());
                         entityLivingBaseIn.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), timings[1][0], 1));
                 }
@@ -77,7 +79,6 @@ public class RadiationEffect extends Effect {
                     entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 1200, 0, true, false));
                 }
                 else if(duration == timings[2][2]){
-                    //TODO add prob
                     //WALKING GHOST PHASE
                     if(!prob(20, 50)){
                         entityLivingBaseIn.removePotionEffect(PotionInit.radiation_effect.get());

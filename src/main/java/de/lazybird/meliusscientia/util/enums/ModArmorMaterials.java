@@ -15,11 +15,11 @@ import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements IArmorMaterial {
 
-    RPS(MeliusScientia.MODID + ":rps_material", 5, new int[] { 7, 9, 11, 7 }, 420, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 6.9F, () -> {
+    RPS(MeliusScientia.MODID + ":rps_material", 5, new int[] {1, 2, 3, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 6.9F, () -> {
         return Ingredient.fromItems(Items.DANDELION);
     });
 
-    private static final int[] MAX_DAMAGE_ARRAY = new int[] { 16, 16, 16, 16 };
+    private static final int[] MAX_DAMAGE_ARRAY = new int[] { 0, 0, 0, 0};
     private final String name;
     private final int maxDamageFactor;
     private final int[] damageReductionAmountArray;
