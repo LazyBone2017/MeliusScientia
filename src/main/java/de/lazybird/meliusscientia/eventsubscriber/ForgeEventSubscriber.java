@@ -22,17 +22,7 @@ public class ForgeEventSubscriber {
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event){
         if(event.player.world.getBiome(event.player.getPosition()) == BiomeInit.nuked_biome.get()){
-            //TODO add protection
             PlayerEntity player = event.player;
-            if(player.isInWater() && player.getActivePotionEffect(PotionInit.radiation_effect.get()) != null){
-                if(player.getActivePotionEffect(PotionInit.radiation_effect.get()).getAmplifier() != 0)return;
-                player.removePotionEffect(PotionInit.radiation_effect.get());
-                player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[1][0], 1, true, false)); //Level 2
-                return;
-            }
-            if(player.getActivePotionEffect(PotionInit.radiation_effect.get()) == null){
-                player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[0][0], 0, true, false)); //Level 1
-            }
 
             // Geiger-Müller Counter
             if (player.inventory.getCurrentItem().getItem().getRegistryName().toString().equals(MeliusScientia.MODID + ":geiger_counter")) {
@@ -48,6 +38,17 @@ public class ForgeEventSubscriber {
                 else if (geigerCounterSoundTicks >= geigerCounterSoundLength) {
                     geigerCounterSoundTicks = 0;
                 }
+            }
+
+            //TODO add protection
+            if(player.isInWater() && player.getActivePotionEffect(PotionInit.radiation_effect.get()) != null){
+                if(player.getActivePotionEffect(PotionInit.radiation_effect.get()).getAmplifier() != 0)return;
+                player.removePotionEffect(PotionInit.radiation_effect.get());
+                player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[1][0], 1, true, false)); //Level 2
+                return;
+            }
+            if(player.getActivePotionEffect(PotionInit.radiation_effect.get()) == null){
+                player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[0][0], 0, true, false)); //Level 1
             }
         }
     }
