@@ -2,16 +2,20 @@ package de.lazybird.meliusscientia.block;
 
 import de.lazybird.meliusscientia.init.ModTileEntityType;
 import de.lazybird.meliusscientia.tileentity.CombustionGeneratorTileEntity;
-import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CampfireBlock;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.audio.ISound;
+import net.minecraft.client.audio.Sound;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -27,10 +31,13 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Stream;
 
 public class CombustionGenerator extends Block {
@@ -56,7 +63,9 @@ public class CombustionGenerator extends Block {
             Block.makeCuboidShape(5, 2, 6, 11, 5, 15),
             Block.makeCuboidShape(6, 2, 5, 10, 5, 6),
             Block.makeCuboidShape(8, 2, 4, 10, 4, 5)
-    ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+    ).reduce((v1, v2) -> {
+        return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
+    }).get();
 
     private static VoxelShape SHAPE_W = Stream.of(
             Block.makeCuboidShape(0, 0, 12, 1, 9, 13),
@@ -77,7 +86,9 @@ public class CombustionGenerator extends Block {
             Block.makeCuboidShape(1, 2, 5, 10, 5, 11),
             Block.makeCuboidShape(10, 2, 6, 11, 5, 10),
             Block.makeCuboidShape(11, 2, 8, 12, 4, 10)
-    ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+    ).reduce((v1, v2) -> {
+        return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
+    }).get();
 
     private static VoxelShape SHAPE_S = Stream.of(
             Block.makeCuboidShape(3, 0, 0, 4, 9, 1),
@@ -98,7 +109,9 @@ public class CombustionGenerator extends Block {
             Block.makeCuboidShape(5, 2, 1, 11, 5, 10),
             Block.makeCuboidShape(6, 2, 10, 10, 5, 11),
             Block.makeCuboidShape(6, 2, 11, 8, 4, 12)
-    ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+    ).reduce((v1, v2) -> {
+        return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
+    }).get();
 
     private static VoxelShape SHAPE_E = Stream.of(
             Block.makeCuboidShape(0, 0, 12, 1, 9, 13),
@@ -119,7 +132,9 @@ public class CombustionGenerator extends Block {
             Block.makeCuboidShape(1, 2, 5, 10, 5, 11),
             Block.makeCuboidShape(10, 2, 6, 11, 5, 10),
             Block.makeCuboidShape(11, 2, 8, 12, 4, 10)
-    ).reduce((v1, v2) -> {return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);}).get();
+    ).reduce((v1, v2) -> {
+        return VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR);
+    }).get();
 
 
     public CombustionGenerator() {
@@ -129,9 +144,9 @@ public class CombustionGenerator extends Block {
 
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        switch (state.get(FACING)){
+        switch (state.get(FACING)) {
             case NORTH: {
-                    return SHAPE_N;
+                return SHAPE_N;
             }
             case WEST: {
                 return SHAPE_W;
@@ -142,7 +157,8 @@ public class CombustionGenerator extends Block {
             case SOUTH: {
                 return SHAPE_S;
             }
-            default: return SHAPE_N;
+            default:
+                return SHAPE_N;
         }
     }
 
@@ -188,5 +204,23 @@ public class CombustionGenerator extends Block {
     public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         tooltip.add(new StringTextComponent("Generates 5 RF/t by burning fuel"));
         super.addInformation(stack, worldIn, tooltip, flagIn);
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+        if (stateIn.get(ACTIVE)) {
+            double d0 = (double) pos.getX() + 0.5D;
+            double d1 = (double) pos.getY() + 0.5D;
+            double d2 = (double) pos.getZ() + 0.5D;
+            if (rand.nextDouble() < 0.1D) {
+                worldIn.playSound(d0, d1, d2, SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+            }
+            Random random = worldIn.getRandom();
+            worldIn.addOptionalParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, true, (double)pos.getX() + 0.5D + random.nextDouble() / 3.0D * (double)(random.nextBoolean() ? 1 : -1), (double)pos.getY() + random.nextDouble() + random.nextDouble(), (double)pos.getZ() + 0.5D + random.nextDouble() / 3.0D * (double)(random.nextBoolean() ? 1 : -1), 0.0D, 0.03D, 0.0D);
+            worldIn.addParticle(ParticleTypes.SMOKE, (double)pos.getX() + 0.25D + random.nextDouble() / 2.0D * (double)(random.nextBoolean() ? 1 : -1), (double)pos.getY() + 0.4D, (double)pos.getZ() + 0.25D + random.nextDouble() / 2.0D * (double)(random.nextBoolean() ? 1 : -1), 0.0D, 0.002D, 0.0D);
+
+            CampfireBlock.spawnSmokeParticles(worldIn, pos, false, true);
+        }
     }
 }

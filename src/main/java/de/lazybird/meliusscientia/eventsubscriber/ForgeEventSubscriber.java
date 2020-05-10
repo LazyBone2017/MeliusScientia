@@ -5,8 +5,11 @@ import de.lazybird.meliusscientia.effects.RadiationEffect;
 import de.lazybird.meliusscientia.init.BiomeInit;
 import de.lazybird.meliusscientia.init.ModItem;
 import de.lazybird.meliusscientia.init.PotionInit;
+import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,11 +26,11 @@ public class ForgeEventSubscriber {
             if(player.isInWater() && player.getActivePotionEffect(PotionInit.radiation_effect.get()) != null){
                 if(player.getActivePotionEffect(PotionInit.radiation_effect.get()).getAmplifier() != 0)return;
                 player.removePotionEffect(PotionInit.radiation_effect.get());
-                player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[1][0], 1, true, false)); //Level 2
+                player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[1][0], 1, false, false)); //Level 2
                 return;
             }
             if(player.getActivePotionEffect(PotionInit.radiation_effect.get()) == null){
-                player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[0][0], 0, true, false)); //Level 1
+                player.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[0][0], 0, false, false)); //Level 1
             }
         }
     }
@@ -42,7 +45,7 @@ public class ForgeEventSubscriber {
     @SubscribeEvent
     public static void onPlayerRightClickItem(PlayerInteractEvent.RightClickItem event){
         if(!event.getPlayer().world.isRemote && event.getItemStack().getItem() == ModItem.bottle_u03.get()){
-            event.getPlayer().addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[2][0], 2, true, false)); //Level 1
+            event.getPlayer().addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[2][0], 2, false, false)); //Level 1
         }
     }
 }
