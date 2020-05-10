@@ -1,5 +1,6 @@
 package de.lazybird.meliusscientia.block;
 
+import de.lazybird.meliusscientia.init.ModSound;
 import de.lazybird.meliusscientia.init.ModTileEntityType;
 import de.lazybird.meliusscientia.tileentity.CombustionGeneratorTileEntity;
 import net.minecraft.block.Block;
@@ -7,14 +8,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.Sound;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -31,6 +29,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -42,6 +41,7 @@ import java.util.stream.Stream;
 
 public class CombustionGenerator extends Block {
 
+    private int worldTickStart = 0;
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
     private static VoxelShape SHAPE_N = Stream.of(
@@ -213,14 +213,16 @@ public class CombustionGenerator extends Block {
             double d0 = (double) pos.getX() + 0.5D;
             double d1 = (double) pos.getY() + 0.5D;
             double d2 = (double) pos.getZ() + 0.5D;
-            if (rand.nextDouble() < 0.1D) {
-                worldIn.playSound(d0, d1, d2, SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+            if (rand.nextInt(2) == 1) {
+                worldIn.playSound(d0, d1, d2, ModSound.combustion_generator.get(), SoundCategory.BLOCKS, 0.5F, 1.0F, false);
             }
             Random random = worldIn.getRandom();
             worldIn.addOptionalParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, true, (double)pos.getX() + 0.5D + random.nextDouble() / 3.0D * (double)(random.nextBoolean() ? 1 : -1), (double)pos.getY() + random.nextDouble() + random.nextDouble(), (double)pos.getZ() + 0.5D + random.nextDouble() / 3.0D * (double)(random.nextBoolean() ? 1 : -1), 0.0D, 0.03D, 0.0D);
             worldIn.addParticle(ParticleTypes.SMOKE, (double)pos.getX() + 0.25D + random.nextDouble() / 2.0D * (double)(random.nextBoolean() ? 1 : -1), (double)pos.getY() + 0.4D, (double)pos.getZ() + 0.25D + random.nextDouble() / 2.0D * (double)(random.nextBoolean() ? 1 : -1), 0.0D, 0.002D, 0.0D);
 
             CampfireBlock.spawnSmokeParticles(worldIn, pos, false, true);
+
+
         }
     }
 }

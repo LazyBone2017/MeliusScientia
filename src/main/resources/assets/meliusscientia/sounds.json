@@ -7,5 +7,12 @@
 			"meliusscientia:geiger_counter2",
 			"meliusscientia:geiger_counter3"
 		]
+	},
+	"combustion_generator": {
+		"category": "block",
+		"subtitle": "meliuscientia.subtitle.combustion_generator",
+		"sounds": [
+			"meliusscientia:combustion_generator"
+		]
 	}
 }

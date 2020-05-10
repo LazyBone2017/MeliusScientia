@@ -43,7 +43,7 @@ public class RadiationEffect extends Effect {
                 }
                 else if(duration == timings[0][0] / 2 && entityLivingBaseIn.world.getBiome(entityLivingBaseIn.getPosition()) == BiomeInit.nuked_biome.get() && Util.isWearingRPS((PlayerEntity)entityLivingBaseIn)){
                         entityLivingBaseIn.removePotionEffect(PotionInit.radiation_effect.get());
-                        entityLivingBaseIn.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), timings[1][0], 1));
+                        entityLivingBaseIn.addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), timings[1][0], 1, false, false));
                 }
                 else if(duration == timings[0][1]){
                     entityLivingBaseIn.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 2400, 0, true, false));
