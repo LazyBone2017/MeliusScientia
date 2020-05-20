@@ -15,8 +15,9 @@ public class ModItem {
     public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, MeliusScientia.MODID);
 
 
-    public static final RegistryObject<Item> bottle_u03 = ITEMS.register("bottle_u03", () -> new Item(new Item.Properties().group(ModItemGroups.MELIUSSCIENTIA_ITEM_GROUP_MAIN)));
-    public static final RegistryObject<Item> bottle_uo2 = ITEMS.register("bottle_u02", () -> new Item(new Item.Properties().group(ModItemGroups.MELIUSSCIENTIA_ITEM_GROUP_MAIN)));
+    public static final RegistryObject<Item> bottle_uo3 = ITEMS.register("bottle_uo3", () -> new Item(new Item.Properties().group(ModItemGroups.MELIUSSCIENTIA_ITEM_GROUP_MAIN)));
+    public static final RegistryObject<Item> bottle_uo2 = ITEMS.register("bottle_uo2", () -> new Item(new Item.Properties().group(ModItemGroups.MELIUSSCIENTIA_ITEM_GROUP_MAIN)));
+    public static final RegistryObject<Item> pellet_uo2 = ITEMS.register("pellet_uo2", () -> new Item(new Item.Properties().group(ModItemGroups.MELIUSSCIENTIA_ITEM_GROUP_MAIN)));
 
     public static final RegistryObject<Item> geiger_counter = ITEMS.register("geiger_counter", GeigerCounterItem::new);
 

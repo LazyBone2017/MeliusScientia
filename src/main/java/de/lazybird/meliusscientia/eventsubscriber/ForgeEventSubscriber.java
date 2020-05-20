@@ -62,7 +62,7 @@ public class ForgeEventSubscriber {
 
     @SubscribeEvent
     public static void onPlayerRightClickItem(PlayerInteractEvent.RightClickItem event){
-        if(!event.getPlayer().world.isRemote && event.getItemStack().getItem() == ModItem.bottle_u03.get()){
+        if(!event.getPlayer().world.isRemote && event.getItemStack().getItem() == ModItem.bottle_uo3.get()){
             event.getPlayer().addPotionEffect(new EffectInstance(PotionInit.radiation_effect.get(), RadiationEffect.timings[2][0], 2, false, false)); //Level 1
         }
     }

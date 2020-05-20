@@ -1,7 +1,13 @@
 {
-  "item.meliusscientia.bottle_u03": "Laboratory Bottle(Uranium Trioxide)",
-  "item.meliusscientia.bottle_u02": "Laboratory Bottle(Uranium Dioxide)",
-  "item.meliusscientia.geiger_counter": "Geiger-Müller counter",
+  "item.meliusscientia.bottle_uo3": "Laboratory Bottle(Uranium Trioxide)",
+  "item.meliusscientia.bottle_uo2": "Laboratory Bottle(Uranium Dioxide)",
+  "item.meliusscientia.geiger_counter": "Geiger-Müller Counter",
+  "item.meliusscientia.pellet_uo2": "Pellet(Uranium Dioxide)",
+
+  "item.meliusscientia.rps_helmet": "Radiation Protection Helmet",
+  "item.meliusscientia.rps_chestplate": "Radiation Protection Chestplate",
+  "item.meliusscientia.rps_leggings": "Radiation Protection Leggings",
+  "item.meliusscientia.rps_boots": "Radiation Protection Boots",
 
   "block.meliusscientia.uranium_ore": "Uranium Ore",
   "block.meliusscientia.beech_log": "Contaminated Log",
