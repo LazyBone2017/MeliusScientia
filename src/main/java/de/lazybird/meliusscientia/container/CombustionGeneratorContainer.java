@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -23,7 +25,7 @@ public class CombustionGeneratorContainer extends Container {
     private final CombustionGeneratorTileEntity tileEntity;
     private final ItemStackHandler itemStorage;
 
-    public CombustionGeneratorContainer(final int windowId, final PlayerInventory playerInventory, final CombustionGeneratorTileEntity tileEntity) {
+    public CombustionGeneratorContainer(int windowId, PlayerInventory playerInventory, CombustionGeneratorTileEntity tileEntity) {
         super(ModContainerTypes.combustion_generator.get(), windowId);
         this.itemStorage = tileEntity.itemStorage;
         this.tileEntity = tileEntity;
@@ -95,4 +97,21 @@ public class CombustionGeneratorContainer extends Container {
 		}
 		return itemstack;
     }
+    @OnlyIn(Dist.CLIENT)
+    public int getEnergyProgressionScaled(){
+    	int max = this.tileEntity.energyStorage.getMaxEnergyStored();
+    	int stored = tileEntity.energyStorage.getEnergyStored();
+		return Math.round(stored * (50.0F / max));
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public int getTimeProgressionScaled(){
+		int time = this.tileEntity.timeleft;
+		int fullTime = tileEntity.consumedFuelTime;
+		return Math.round(time * (24.0F / fullTime));
+	}
+
+	public CombustionGeneratorTileEntity getTileEntity(){
+    	return tileEntity;
+	}
 }

@@ -5,6 +5,7 @@ import de.lazybird.meliusscientia.MeliusScientia;
 import de.lazybird.meliusscientia.container.CombustionGeneratorContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.AbstractFurnaceContainer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -34,7 +35,9 @@ public class CombustionGeneratorScreen extends ContainerScreen<CombustionGenerat
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         this.font.drawString(this.title.getFormattedText(), 8, 6, 4210752);
-        this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8, 36, 4210752);
+        this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8, ySize - 96 + 2, 4210752);
+        this.font.drawString("Energy:", 79, 35, 4210752);
+        this.font.drawString(String.valueOf(container.getTileEntity().energyStorage.getEnergyStored()), 79, 45, 4210752);
     }
 
     @Override
@@ -44,6 +47,13 @@ public class CombustionGeneratorScreen extends ContainerScreen<CombustionGenerat
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
+        int k = container.getEnergyProgressionScaled();
+        int l = container.getTimeProgressionScaled();
+        int i = this.guiLeft;
+        int j = this.guiTop;
+        //energy progress bar
+        this.blit(i + 149, j + 70 - k, 176, 24, 11, k);
+        //burntime
+        this.blit(i + 65, j + 56 - l, 176, 0, 6, l);
     }
-
 }

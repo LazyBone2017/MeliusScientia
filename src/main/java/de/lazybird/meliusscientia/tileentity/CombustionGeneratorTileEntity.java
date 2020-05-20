@@ -15,6 +15,8 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -46,6 +48,7 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
     public final LazyOptional<GeneratorEnergyStorage> energyInstance = LazyOptional.of(() -> energyStorage);
     public final LazyOptional<ItemStackHandler> itemInstance = LazyOptional.of(() -> itemStorage);
     public int timeleft = 0;
+    public int consumedFuelTime = 0;
 
     public CombustionGeneratorTileEntity(final TileEntityType<?> tileEntityTypeIn) {
         super(tileEntityTypeIn);
@@ -77,6 +80,7 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
                 if (!itemStorage.getStackInSlot(0).isEmpty()) {
                     timeleft = ForgeHooks.getBurnTime(itemStorage.getStackInSlot(0));
                     itemStorage.getStackInSlot(0).setCount(itemStorage.getStackInSlot(0).getCount() - 1);
+                    consumedFuelTime = timeleft;
                     getWorld().setBlockState(getPos(), getBlockState().with(CombustionGenerator.ACTIVE, true));
                 } else {
                     getWorld().setBlockState(getPos(), getBlockState().with(CombustionGenerator.ACTIVE, false));
@@ -85,6 +89,8 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
                 if (energyStorage.incrementEnergy(5))
                     timeleft--;
             }
+            //used for Server/Client sync using NBT
+            world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 2);
         }
     }
 
@@ -103,6 +109,7 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
 		compound.putInt("energy", energyStorage.getEnergyStored());
+		compound.putInt("fullTime", consumedFuelTime);
 		compound.putInt("timeleft", timeleft);
 		compound.merge(itemStorage.serializeNBT());
 		return compound;
@@ -112,9 +119,26 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
 	public void read(CompoundNBT compound) {
 		super.read(compound);
 		energyStorage.setEnergy(compound.getInt("energy"));
+		consumedFuelTime = compound.getInt("fullTime");
 		timeleft = compound.getInt("timeleft");
 		itemStorage.deserializeNBT(compound);
 	}
+
+    @Nullable
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.pos, -1,this.getUpdateTag());
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag() {
+        return this.write(new CompoundNBT());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+        read(pkt.getNbtCompound());
+    }
 
     @Override
     public ITextComponent getDisplayName() {
