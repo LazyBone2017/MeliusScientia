@@ -6,7 +6,7 @@ import net.minecraft.item.Item;
 public class GeigerCounterItem extends Item {
 
     public GeigerCounterItem() {
-        super(new Item.Properties().group(ModItemGroups.MOD_ITEM_GROUP));
+        super(new Item.Properties().group(ModItemGroups.MELIUSSCIENTIA_ITEM_GROUP_MAIN));
     }
 
 }
