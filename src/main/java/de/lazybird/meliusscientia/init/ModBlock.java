@@ -3,6 +3,7 @@ package de.lazybird.meliusscientia.init;
 import de.lazybird.meliusscientia.MeliusScientia;
 import de.lazybird.meliusscientia.block.BeechSapling;
 import de.lazybird.meliusscientia.block.CombustionGenerator;
+import de.lazybird.meliusscientia.block.CrusherBlock;
 import de.lazybird.meliusscientia.block.RadioactiveDirtBlock;
 import de.lazybird.meliusscientia.worldgen.tree.BeechTree;
 import net.minecraft.block.*;
@@ -26,5 +27,6 @@ public class ModBlock {
     public static RegistryObject<Block> beech_log = BLOCKS.register("beech_log", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG)));
     public static RegistryObject<Block> beech_sapling = BLOCKS.register("beech_sapling", () -> new BeechSapling(BeechTree::new, Block.Properties.from(Blocks.OAK_SAPLING)));
     public static RegistryObject<Block> combustion_generator = BLOCKS.register("combustion_generator", CombustionGenerator::new);
+    public static RegistryObject<Block> crusher = BLOCKS.register("crusher", CrusherBlock::new);
 
 }
