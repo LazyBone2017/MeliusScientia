@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"active=false": { "model": "meliusscientia:block/nuclear_reactor_off" },
+		"active=true": { "model": "meliusscientia:block/nuclear_reactor_on" }
+	}
+}
