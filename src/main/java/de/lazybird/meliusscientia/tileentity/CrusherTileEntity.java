@@ -5,6 +5,7 @@ import de.lazybird.meliusscientia.container.CrusherContainer;
 import de.lazybird.meliusscientia.init.ModBlock;
 import de.lazybird.meliusscientia.init.ModItem;
 import de.lazybird.meliusscientia.init.ModTileEntityType;
+import de.lazybird.meliusscientia.init.RecipeInit;
 import de.lazybird.meliusscientia.util.storage.MachineEnergyStorage;
 import de.lazybird.meliusscientia.util.storage.MachineItemStackHandler;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,14 +34,8 @@ import static net.minecraftforge.energy.CapabilityEnergy.ENERGY;
 
 public class CrusherTileEntity extends TileEntity implements ITickableTileEntity, INamedContainerProvider {
 
-    // TODO: Handle recipes different
-    private static HashMap<Item, Item> recipes = new HashMap<>();
-    static {
-        recipes.put(ModBlock.uranium_ore.get().asItem(), ModItem.bottle_uo2.get());
-    }
-
     public final MachineEnergyStorage energyStorage = new MachineEnergyStorage(1000, 20);
-    public final MachineItemStackHandler inputStorage = new MachineItemStackHandler(recipes.keySet());
+    public final MachineItemStackHandler inputStorage = new MachineItemStackHandler(RecipeInit.crusherRecipeHandler.inputs());
     public final MachineItemStackHandler outputStorage = new MachineItemStackHandler();
     private final LazyOptional<MachineEnergyStorage> energyStorageLazyOptional = LazyOptional.of(() -> energyStorage);
     private final LazyOptional<MachineItemStackHandler> inputStorageLazyOptional = LazyOptional.of(() -> inputStorage);
@@ -102,7 +97,7 @@ public class CrusherTileEntity extends TileEntity implements ITickableTileEntity
     public void tick() {
         if (!world.isRemote()) {
             if (timeLeft <= 0) {
-                if (recipes.get(inputStorage.getStackInSlot(0).getItem()) != null) {
+                if (RecipeInit.crusherRecipeHandler.getResult(inputStorage.getStackInSlot(0).getItem()) != null) {
                     currentInput = inputStorage.getStackInSlot(0).getItem();
                     inputStorage.extractItem(0, 1, false);
                     timeLeft = 200;
@@ -111,7 +106,7 @@ public class CrusherTileEntity extends TileEntity implements ITickableTileEntity
                 if (energyStorage.decrementEnergy(20)) {
                     timeLeft--;
                     if (timeLeft == 0) {
-                        outputStorage.insertItem(0, new ItemStack(recipes.get(currentInput)), false);
+                        outputStorage.insertItem(0, new ItemStack(RecipeInit.crusherRecipeHandler.getResult(currentInput)), false);
                     }
                 }
             }
