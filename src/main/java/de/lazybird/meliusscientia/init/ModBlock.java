@@ -5,6 +5,7 @@ import de.lazybird.meliusscientia.block.BeechSapling;
 import de.lazybird.meliusscientia.block.CombustionGenerator;
 import de.lazybird.meliusscientia.block.NuclearReactor;
 import de.lazybird.meliusscientia.block.RadioactiveDirtBlock;
+import de.lazybird.meliusscientia.block.*;
 import de.lazybird.meliusscientia.worldgen.tree.BeechTree;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -28,4 +29,6 @@ public class ModBlock {
     public static RegistryObject<Block> beech_sapling = BLOCKS.register("beech_sapling", () -> new BeechSapling(BeechTree::new, Block.Properties.from(Blocks.OAK_SAPLING)));
     public static RegistryObject<Block> combustion_generator = BLOCKS.register("combustion_generator", CombustionGenerator::new);
     public static RegistryObject<Block> nuclear_reactor = BLOCKS.register("nuclear_reactor", NuclearReactor::new);
+    public static RegistryObject<Block> crusher = BLOCKS.register("crusher", () -> new MachineBlock<>(ModTileEntityType.crusher));
+
 }

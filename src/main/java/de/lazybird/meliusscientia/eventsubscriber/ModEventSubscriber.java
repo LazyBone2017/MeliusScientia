@@ -5,6 +5,7 @@ import de.lazybird.meliusscientia.Util;
 import de.lazybird.meliusscientia.init.BiomeInit;
 import de.lazybird.meliusscientia.init.ModBlock;
 import de.lazybird.meliusscientia.init.ModItemGroups;
+import de.lazybird.meliusscientia.init.RecipeInit;
 import de.lazybird.meliusscientia.worldgen.OreGen;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -44,7 +45,7 @@ public class ModEventSubscriber {
 
     @SubscribeEvent
     public static void loadCompleteEvent(FMLLoadCompleteEvent event){
-
+        RecipeInit.registerRecipes();
     }
 
     @SubscribeEvent
