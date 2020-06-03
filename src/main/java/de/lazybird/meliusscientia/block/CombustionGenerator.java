@@ -165,8 +165,7 @@ public class CombustionGenerator extends Block {
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if (player.isCrouching()) return ActionResultType.FAIL;
-        if (worldIn.isRemote)
-            return ActionResultType.SUCCESS;
+        if (worldIn.isRemote) return ActionResultType.SUCCESS;
         CombustionGeneratorTileEntity te = (CombustionGeneratorTileEntity) worldIn.getTileEntity(pos);
         player.sendMessage(new StringTextComponent("Energy: " + te.energyStorage.getEnergyStored() + " Timeleft: " + te.timeleft));
         NetworkHooks.openGui((ServerPlayerEntity) player, te, pos);

@@ -1,7 +1,12 @@
 {
 	"variants": {
-		"": {
-			"model": "meliusscientia:block/crusher"
-		}
+		"facing=north,active=false": { "model": "meliusscientia:block/crusher_off" },
+		"facing=south,active=false": { "model": "meliusscientia:block/crusher_off", "y": 180 },
+		"facing=west,active=false":  { "model": "meliusscientia:block/crusher_off", "y": 270 },
+		"facing=east,active=false":  { "model": "meliusscientia:block/crusher_off", "y": 90 },
+		"facing=north,active=true": { "model": "meliusscientia:block/crusher_on" },
+		"facing=south,active=true": { "model": "meliusscientia:block/crusher_on", "y": 180 },
+		"facing=west,active=true":  { "model": "meliusscientia:block/crusher_on", "y": 270 },
+		"facing=east,active=true":  { "model": "meliusscientia:block/crusher_on", "y": 90 }
 	}
 }

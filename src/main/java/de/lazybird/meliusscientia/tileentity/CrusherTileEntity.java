@@ -1,6 +1,7 @@
 package de.lazybird.meliusscientia.tileentity;
 
 import de.lazybird.meliusscientia.MeliusScientia;
+import de.lazybird.meliusscientia.block.MachineBlock;
 import de.lazybird.meliusscientia.container.CrusherContainer;
 import de.lazybird.meliusscientia.init.ModTileEntityType;
 import de.lazybird.meliusscientia.init.RecipeInit;
@@ -94,7 +95,9 @@ public class CrusherTileEntity extends MachineTileEntity {
                     currentInput = inputStorage.getStackInSlot(0).getItem();
                     inputStorage.extractItem(0, 1, false);
                     timeLeft = 200;
+                    getWorld().setBlockState(pos, getBlockState().with(MachineBlock.ACTIVE, true));
                 }
+                else getWorld().setBlockState(pos, getBlockState().with(MachineBlock.ACTIVE, false));
             } else {
                 if (energyStorage.decrementEnergy(20)) {
                     timeLeft--;

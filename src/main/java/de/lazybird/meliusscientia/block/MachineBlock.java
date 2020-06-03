@@ -1,5 +1,6 @@
 package de.lazybird.meliusscientia.block;
 
+import de.lazybird.meliusscientia.tileentity.CrusherTileEntity;
 import de.lazybird.meliusscientia.tileentity.MachineTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -12,6 +13,7 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.ComparatorTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.*;
@@ -32,7 +34,7 @@ public class MachineBlock<T extends MachineTileEntity> extends Block {
 
     public MachineBlock(RegistryObject<TileEntityType<T>> tileEntityTypeRegistryObject) {
         super(Block.Properties.create(Material.IRON));
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(ACTIVE, Boolean.FALSE));
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.SOUTH).with(ACTIVE, Boolean.FALSE));
         this.tileEntityTypeRegistryObject = tileEntityTypeRegistryObject;
     }
 
@@ -41,7 +43,8 @@ public class MachineBlock<T extends MachineTileEntity> extends Block {
         if (player.isCrouching()) return ActionResultType.FAIL;
         if (worldIn.isRemote)
             return ActionResultType.SUCCESS;
-        NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) worldIn.getTileEntity(pos), pos);
+        MachineTileEntity tileEntity = (MachineTileEntity)worldIn.getTileEntity(pos);
+        NetworkHooks.openGui((ServerPlayerEntity) player, tileEntity, pos);
         return ActionResultType.SUCCESS;
     }
 
@@ -66,7 +69,7 @@ public class MachineBlock<T extends MachineTileEntity> extends Block {
     }
 
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
+        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
     }
 
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {

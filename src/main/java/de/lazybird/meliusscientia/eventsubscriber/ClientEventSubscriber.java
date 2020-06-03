@@ -2,6 +2,7 @@ package de.lazybird.meliusscientia.eventsubscriber;
 
 import de.lazybird.meliusscientia.MeliusScientia;
 import de.lazybird.meliusscientia.client.gui.CombustionGeneratorScreen;
+import de.lazybird.meliusscientia.client.gui.CrusherScreen;
 import de.lazybird.meliusscientia.init.ModBlock;
 import de.lazybird.meliusscientia.init.ModContainerTypes;
 import net.minecraft.client.gui.ScreenManager;
@@ -20,6 +21,7 @@ public class ClientEventSubscriber {
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
         ScreenManager.registerFactory(ModContainerTypes.combustion_generator.get(), CombustionGeneratorScreen::new);
+        ScreenManager.registerFactory(ModContainerTypes.crusher.get(), CrusherScreen::new);
         RenderTypeLookup.setRenderLayer(ModBlock.beech_sapling.get(), RenderType.getCutout());
     }
 

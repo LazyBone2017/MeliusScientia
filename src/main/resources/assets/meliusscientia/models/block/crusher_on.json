@@ -1,0 +1,9 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "meliusscientia:block/crusher_top_on",
+    "side": "meliusscientia:block/crusher_side",
+    "bottom": "meliusscientia:block/crusher_bottom",
+    "front": "meliusscientia:block/crusher_front_on"
+  }
+}
