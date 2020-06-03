@@ -2,8 +2,6 @@ package de.lazybird.meliusscientia.tileentity;
 
 import de.lazybird.meliusscientia.MeliusScientia;
 import de.lazybird.meliusscientia.container.CrusherContainer;
-import de.lazybird.meliusscientia.init.ModBlock;
-import de.lazybird.meliusscientia.init.ModItem;
 import de.lazybird.meliusscientia.init.ModTileEntityType;
 import de.lazybird.meliusscientia.init.RecipeInit;
 import de.lazybird.meliusscientia.util.storage.MachineEnergyStorage;
@@ -11,12 +9,9 @@ import de.lazybird.meliusscientia.util.storage.MachineItemStackHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
@@ -28,11 +23,9 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import java.util.HashMap;
-
 import static net.minecraftforge.energy.CapabilityEnergy.ENERGY;
 
-public class CrusherTileEntity extends TileEntity implements ITickableTileEntity, INamedContainerProvider {
+public class CrusherTileEntity extends MachineTileEntity {
 
     public final MachineEnergyStorage energyStorage = new MachineEnergyStorage(1000, 20);
     public final MachineItemStackHandler inputStorage = new MachineItemStackHandler(RecipeInit.crusherRecipeHandler.inputs());
@@ -95,7 +88,7 @@ public class CrusherTileEntity extends TileEntity implements ITickableTileEntity
 
     @Override
     public void tick() {
-        if (!world.isRemote()) {
+        if (!super.world.isRemote()) {
             if (timeLeft <= 0) {
                 if (RecipeInit.crusherRecipeHandler.getResult(inputStorage.getStackInSlot(0).getItem()) != null) {
                     currentInput = inputStorage.getStackInSlot(0).getItem();

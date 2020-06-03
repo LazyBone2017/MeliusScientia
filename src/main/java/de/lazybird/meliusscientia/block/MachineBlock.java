@@ -1,8 +1,6 @@
 package de.lazybird.meliusscientia.block;
 
-import de.lazybird.meliusscientia.init.ModTileEntityType;
-import de.lazybird.meliusscientia.tileentity.CombustionGeneratorTileEntity;
-import de.lazybird.meliusscientia.tileentity.CrusherTileEntity;
+import de.lazybird.meliusscientia.tileentity.MachineTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -15,22 +13,27 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public class CrusherBlock extends Block {
+import javax.annotation.Nullable;
+
+public class MachineBlock<T extends MachineTileEntity> extends Block {
 
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
     public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+    private RegistryObject<TileEntityType<T>> tileEntityTypeRegistryObject;
 
-    public CrusherBlock() {
+    public MachineBlock(RegistryObject<TileEntityType<T>> tileEntityTypeRegistryObject) {
         super(Block.Properties.create(Material.IRON));
         this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(ACTIVE, Boolean.FALSE));
+        this.tileEntityTypeRegistryObject = tileEntityTypeRegistryObject;
     }
 
     @Override
@@ -38,8 +41,6 @@ public class CrusherBlock extends Block {
         if (player.isCrouching()) return ActionResultType.FAIL;
         if (worldIn.isRemote)
             return ActionResultType.SUCCESS;
-        CrusherTileEntity te = (CrusherTileEntity) worldIn.getTileEntity(pos);
-        player.sendMessage(new StringTextComponent("Energy: " + te.energyStorage.getEnergyStored() + " Timeleft: " + te.timeLeft));
         NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) worldIn.getTileEntity(pos), pos);
         return ActionResultType.SUCCESS;
     }
@@ -49,9 +50,10 @@ public class CrusherBlock extends Block {
         return true;
     }
 
+    @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return ModTileEntityType.crusher.get().create();
+        return tileEntityTypeRegistryObject.get().create();
     }
 
     public BlockState rotate(BlockState state, Rotation rot) {
@@ -70,5 +72,4 @@ public class CrusherBlock extends Block {
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING, ACTIVE);
     }
-
 }
