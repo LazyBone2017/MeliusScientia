@@ -7,6 +7,6 @@ public class RecipeInit {
     public static CrusherRecipeHandler crusherRecipeHandler = new CrusherRecipeHandler();
 
     public static void registerRecipes() {
-        crusherRecipeHandler.addRecipe(ModBlock.uranium_ore.get().asItem(), ModItem.bottle_u03.get());
+        crusherRecipeHandler.addRecipe(ModBlock.uranium_ore.get().asItem(), ModItem.bottle_uo3.get());
     }
 }
