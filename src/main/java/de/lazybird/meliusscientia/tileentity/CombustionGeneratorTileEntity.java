@@ -2,13 +2,9 @@ package de.lazybird.meliusscientia.tileentity;
 
 import de.lazybird.meliusscientia.MeliusScientia;
 import de.lazybird.meliusscientia.block.CombustionGenerator;
-import de.lazybird.meliusscientia.client.audio.CombustionGeneratorTickableSound;
 import de.lazybird.meliusscientia.container.CombustionGeneratorContainer;
-import de.lazybird.meliusscientia.init.ModSound;
 import de.lazybird.meliusscientia.init.ModTileEntityType;
 import de.lazybird.meliusscientia.util.storage.GeneratorEnergyStorage;
-import net.minecraft.block.CampfireBlock;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -17,13 +13,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.state.BooleanProperty;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -109,7 +102,7 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
 	public CompoundNBT write(CompoundNBT compound) {
 		super.write(compound);
 		compound.putInt("energy", energyStorage.getEnergyStored());
-		compound.putInt("fullTime", consumedFuelTime);
+		compound.putInt("fuelTime", consumedFuelTime);
 		compound.putInt("timeleft", timeleft);
 		compound.merge(itemStorage.serializeNBT());
 		return compound;
@@ -119,7 +112,7 @@ public class CombustionGeneratorTileEntity extends TileEntity implements ITickab
 	public void read(CompoundNBT compound) {
 		super.read(compound);
 		energyStorage.setEnergy(compound.getInt("energy"));
-		consumedFuelTime = compound.getInt("fullTime");
+		consumedFuelTime = compound.getInt("fuelTime");
 		timeleft = compound.getInt("timeleft");
 		itemStorage.deserializeNBT(compound);
 	}

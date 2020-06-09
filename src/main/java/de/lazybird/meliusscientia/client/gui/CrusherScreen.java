@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class CrusherScreen extends ContainerScreen<CrusherContainer> {
 
-    private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(MeliusScientia.MODID, "textures/gui/combustion_generator.png");
+    private static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation(MeliusScientia.MODID, "textures/gui/crusher.png");
 
     public CrusherScreen(CrusherContainer screenContainer, PlayerInventory inv, ITextComponent titleIn) {
         super(screenContainer, inv, titleIn);
@@ -36,8 +36,7 @@ public class CrusherScreen extends ContainerScreen<CrusherContainer> {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         this.font.drawString(this.title.getFormattedText(), 8, 6, 4210752);
         this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8, ySize - 96 + 2, 4210752);
-        this.font.drawString("Energy:", 79, 35, 4210752);
-        this.font.drawString(String.valueOf(container.getTileEntity().energyStorage.getEnergyStored()), 79, 45, 4210752);
+        this.font.drawString(String.valueOf(container.getTileEntity().energyStorage.getEnergyStored()), 114, 63, 4210752);
     }
 
     @Override
@@ -47,14 +46,14 @@ public class CrusherScreen extends ContainerScreen<CrusherContainer> {
         int x = (this.width - this.xSize) / 2;
         int y = (this.height - this.ySize) / 2;
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
-        /*int k = container.getEnergyProgressionScaled();
+        int k = container.getEnergyProgressionScaled();
         int l = container.getTimeProgressionScaled();
         int i = this.guiLeft;
         int j = this.guiTop;
         //energy progress bar
         this.blit(i + 149, j + 70 - k, 176, 24, 11, k);
         //burntime
-        this.blit(i + 65, j + 56 - l, 176, 0, 6, l);
-         */
+        this.blit(i + 72, j + 31, 176, 0, 13, 23 - l);
+
     }
 }

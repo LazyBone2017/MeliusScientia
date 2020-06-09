@@ -13,6 +13,8 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
@@ -74,6 +76,7 @@ public class CrusherTileEntity extends MachineTileEntity {
     public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
         compound.putInt("energy", energyStorage.getEnergyStored());
+        compound.putInt("timeleft", timeLeft);
         compound.merge(inputStorage.serializeNBT("input"));
         compound.merge(outputStorage.serializeNBT("output"));
         return compound;
@@ -83,13 +86,32 @@ public class CrusherTileEntity extends MachineTileEntity {
     public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         energyStorage.setEnergy(compound.getInt("energy"));
+        timeLeft = compound.getInt("timeleft");
         inputStorage.deserializeNBT(compound, "input");
         outputStorage.deserializeNBT(compound, "output");
     }
 
+    @Nullable
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.pos, -1,this.getUpdateTag());
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag() {
+        return this.write(new CompoundNBT());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+        read(pkt.getNbtCompound());
+    }
+
+
+    //TODO current input wird nicht mit nbt gespeichert -> nach disconnect wird kein item ausgegeben
     @Override
     public void tick() {
-        if (!super.world.isRemote()) {
+        if (!getWorld().isRemote()) {
             if (timeLeft <= 0) {
                 if (RecipeInit.crusherRecipeHandler.getResult(inputStorage.getStackInSlot(0).getItem()) != null) {
                     currentInput = inputStorage.getStackInSlot(0).getItem();
@@ -99,13 +121,14 @@ public class CrusherTileEntity extends MachineTileEntity {
                 }
                 else getWorld().setBlockState(pos, getBlockState().with(MachineBlock.ACTIVE, false));
             } else {
-                if (energyStorage.decrementEnergy(20)) {
+                if (energyStorage.decrementEnergy(1)) {
                     timeLeft--;
                     if (timeLeft == 0) {
                         outputStorage.insertItem(0, new ItemStack(RecipeInit.crusherRecipeHandler.getResult(currentInput)), false);
                     }
                 }
             }
+            world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 2);
         }
     }
 }

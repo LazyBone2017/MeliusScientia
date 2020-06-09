@@ -52,6 +52,8 @@ public class CombustionGeneratorScreen extends ContainerScreen<CombustionGenerat
         int i = this.guiLeft;
         int j = this.guiTop;
         //energy progress bar
+        //arg0: left + coordX
+        //arg1: top + lower end of bar - energyValue
         this.blit(i + 149, j + 70 - k, 176, 24, 11, k);
         //burntime
         this.blit(i + 65, j + 56 - l, 176, 0, 6, l);

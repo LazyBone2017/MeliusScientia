@@ -1,5 +1,6 @@
 package de.lazybird.meliusscientia.block;
 
+import de.lazybird.meliusscientia.tileentity.CombustionGeneratorTileEntity;
 import de.lazybird.meliusscientia.tileentity.CrusherTileEntity;
 import de.lazybird.meliusscientia.tileentity.MachineTileEntity;
 import net.minecraft.block.Block;
@@ -19,6 +20,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
@@ -44,6 +46,7 @@ public class MachineBlock<T extends MachineTileEntity> extends Block {
         if (worldIn.isRemote)
             return ActionResultType.SUCCESS;
         MachineTileEntity tileEntity = (MachineTileEntity)worldIn.getTileEntity(pos);
+        player.sendMessage(new StringTextComponent("Energy: " + ((CrusherTileEntity)tileEntity).energyStorage.getEnergyStored() + " Timeleft: " + ((CrusherTileEntity)tileEntity).timeLeft));
         NetworkHooks.openGui((ServerPlayerEntity) player, tileEntity, pos);
         return ActionResultType.SUCCESS;
     }

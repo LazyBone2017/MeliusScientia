@@ -2,17 +2,20 @@ package de.lazybird.meliusscientia.container;
 
 import de.lazybird.meliusscientia.init.ModBlock;
 import de.lazybird.meliusscientia.init.ModContainerTypes;
+import de.lazybird.meliusscientia.init.RecipeInit;
 import de.lazybird.meliusscientia.tileentity.CombustionGeneratorTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -76,26 +79,20 @@ public class CombustionGeneratorContainer extends Container {
 
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
-		Slot slot = this.inventorySlots.get(index);
-		if (slot != null && slot.getHasStack()) {
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
-			if (index < 36) {
-				if (!this.mergeItemStack(itemstack1, 36, this.inventorySlots.size(), true)) {
-					return ItemStack.EMPTY;
-				}
-			} else if (!this.mergeItemStack(itemstack1, 0, 36, false)) {
+		ItemStack stack = ItemStack.EMPTY;
+		Slot slot = inventorySlots.get(index);
+		stack = slot.getStack();
+		if(index == 0){
+			if(!mergeItemStack(stack, 1, 37, false)){
 				return ItemStack.EMPTY;
 			}
-
-			if (itemstack1.isEmpty()) {
-				slot.putStack(ItemStack.EMPTY);
-			} else {
-				slot.onSlotChanged();
+		}
+		else {
+			if(ForgeHooks.getBurnTime(stack) > 0){
+				if(!mergeItemStack(stack, 0, 1, false))return ItemStack.EMPTY;
 			}
 		}
-		return itemstack;
+		return ItemStack.EMPTY;
     }
     @OnlyIn(Dist.CLIENT)
     public int getEnergyProgressionScaled(){
