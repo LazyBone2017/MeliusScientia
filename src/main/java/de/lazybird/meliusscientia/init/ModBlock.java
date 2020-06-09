@@ -30,5 +30,6 @@ public class ModBlock {
     public static RegistryObject<Block> combustion_generator = BLOCKS.register("combustion_generator", CombustionGenerator::new);
     public static RegistryObject<Block> nuclear_reactor = BLOCKS.register("nuclear_reactor", NuclearReactor::new);
     public static RegistryObject<Block> crusher = BLOCKS.register("crusher", () -> new MachineBlock<>(ModTileEntityType.crusher));
+    public static RegistryObject<Block> cable = BLOCKS.register("cable", CableBlock::new);
 
 }
