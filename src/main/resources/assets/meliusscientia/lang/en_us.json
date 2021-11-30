@@ -16,6 +16,7 @@
   "block.meliusscientia.beech_sapling": "Contaminated Sapling",
   "block.meliusscientia.sludge": "Sludge",
   "block.meliusscientia.radioactive_dirt": "Contaminated Dirt",
+  "block.meliusscientia.cable": "Cable",
 
   "effect.meliusscientia.radiation_effect": "Radiation",
   "death.attack.radiation_damage": "%1$s was exposed to a lethal dose of radiation.",

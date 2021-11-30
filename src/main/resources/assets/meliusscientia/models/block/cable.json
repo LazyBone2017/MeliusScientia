@@ -1,0 +1,14 @@
+{
+  "parent": "block/block",
+  "loader": "forge:obj",
+  "model": "meliusscientia:models/block/cable.obj",
+  "flip-v": true,
+  "textures": {
+    "side": "meliusscientia:block/cable_vertical",
+    "center_up": "meliusscientia:block/cable",
+    "center_north": "meliusscientia:block/cable",
+    "center_south": "meliusscientia:block/cable",
+    "center_east": "meliusscientia:block/cable",
+    "center_west": "meliusscientia:block/cable"
+  }
+}
